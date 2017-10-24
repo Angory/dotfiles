@@ -1,0 +1,64 @@
+xvt*transparent: true
+URxvt*shading: 20
+ 
+URxvt*scrollBar: false
+ 
+URxvt*fading: 0
+ 
+URxvt*visualBell: true
+ 
+URxvt*font: xft:SauceCodePro Nerd Font:size=10
+
+!
+! borders
+!
+! pixels for external border
+URxvt*externalBorder:     0
+! pixels for internal border
+URxvt*internalBorder:     6
+URxvt*borderLess: false 
+! URXVT FONT SETTINGS
+!------------------------------------------------
+Xft.autohint: true
+Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+URxvt.perl-ext-common: default,matcher,clipboard
+! URXVT COPY PASTE SHORTCUTS
+!------------------------------------------------
+URxvt.iso14755: False
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
+! URXVT SCROLLBAR AND CURSOR STYLE
+!------------------------------------------------
+URxvt*saveLines: 300000
+URxvt.scrollBar: false
+!URxvt*scrollstyle: plain
+URxvt*cursorBlink: true
+URxvt*cursorUnderline: false
+
+! ! Tomorrow Night
+ URxvt.foreground:  #c5c8c6
+ URxvt.background:  #1d1f21
+ URxvt.cursorColor: #aeafad
+ URxvt.color0:      #000000
+ URxvt.color1:      #912226
+ URxvt.color2:      #778900
+ URxvt.color3:      #ae7b00
+ URxvt.color4:      #1d2594
+ URxvt.color5:      #682a9b
+ URxvt.color6:      #2b6651
+ URxvt.color7:      #929593
+ URxvt.color8:      #666666
+ URxvt.color9:      #cc6666
+ URxvt.color10:     #b5bd68
+ URxvt.color11:     #f0c674
+ URxvt.color12:     #81a2be
+ URxvt.color13:     #b294bb
+ URxvt.color14:     #8abeb7
+ URxvt.color15:     #ecebec
+
