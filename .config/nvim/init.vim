@@ -69,8 +69,8 @@ Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " Setup Python
-"let g:python3_host_prog='C:\toolkit\Anaconda3-64\python.exe'
-"let g:python_host_prog='C:\toolkit\Anaconda3-64\envs\py27\python.exe'
+let g:python3_host_prog='/usr/bin/python3'
+let g:python_host_prog='/usr/bin/python2'
 
 
 "*****************************************************************************
