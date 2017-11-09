@@ -1,0 +1,89 @@
+[global_config]
+  borderless = True
+  title_inactive_fg_color = "#afafaf"
+  title_transmit_bg_color = "#757575"
+[keybindings]
+  copy = <Control><Shift>c
+  hide_window = <Shift><Control>a
+  paste = <Control><Shift>v
+  toggle_zoom = <Ctrl>Return
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      profile = default
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    allow_bold = False
+    background_color = "#2e3436"
+    background_darkness = 0.43
+    background_image = None
+    background_type = transparent
+    cursor_color = "#d8d8d8"
+    custom_command = TERM=xterm-256color bash -l
+    font = SauceCodePro Nerd Font 10
+    foreground_color = "#ffffff"
+    icon_bell = False
+    palette = "#000000:#f92672:#6cc72c:#fe9720:#5f91ef:#9358fe:#36af90:#8c8c8c:#4c4c4c:#ff80f4:#a7e22e:#ffee99:#5fd9ef:#ae82fe:#66efd5:#c7cece"
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_custom_command = True
+    use_system_font = False
+  [[Tomorrow Night]]
+    background_color = "#1d1f21"
+    background_image = None
+    cursor_color = "#c5c8c6"
+    foreground_color = "#c5c8c6"
+    palette = "#000000:#cc6666:#b5bd68:#f0c674:#81a2be:#b294bb:#8abeb7:#ffffff:#000000:#cc6666:#b5bd68:#f0c674:#81a2be:#b294bb:#8abeb7:#ffffff"
+  [[base16]]
+    background_color = "#2d2d2d"
+    background_image = None
+    cursor_color = "#d3d0c8"
+    font = Input 10
+    foreground_color = "#d3d0c8"
+    icon_bell = False
+    palette = "#2d2d2d:#f2777a:#99cc99:#ffcc66:#6699cc:#cc99cc:#66cccc:#d3d0c8:#747369:#f2777a:#99cc99:#ffcc66:#6699cc:#cc99cc:#66cccc:#f2f0ec"
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_system_font = False
+  [[monokai]]
+    background_color = "#2e3436"
+    background_image = None
+    background_type = transparent
+    cursor_color = "#d8d8d8"
+    font = Input 10
+    foreground_color = "#ffffff"
+    icon_bell = False
+    palette = "#000000:#f92672:#6cc72c:#fe9720:#5f91ef:#9358fe:#36af90:#8c8c8c:#4c4c4c:#ff80f4:#a7e22e:#ffee99:#5fd9ef:#ae82fe:#66efd5:#c7cece"
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_system_font = False
+  [[solarized-dark]]
+    background_color = "#002b36"
+    background_darkness = 0.6
+    background_image = None
+    background_type = transparent
+    cursor_color = "#eee8d5"
+    font = Input 10
+    foreground_color = "#eee8d5"
+    icon_bell = False
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_system_font = False
+  [[solarized-light]]
+    background_color = "#eee8d5"
+    background_image = None
+    cursor_color = "#002b36"
+    font = Input 10
+    foreground_color = "#002b36"
+    icon_bell = False
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_system_font = False

@@ -12,7 +12,6 @@ xvt*transparent: true
 
 ! General settings
 XTerm*termName: xterm-256color
-XTerm*geometry: 80x24
 XTerm*saveLines: 1024
 XTerm*scrollBar: False
 XTerm*loginshell: False
@@ -20,15 +19,15 @@ XTerm*cursorBlink: False
 
 ! Fonts and Encoding
 XTerm*utf8: True
-XTerm*locale: True
+XTerm.vt100.locale: true
 XTerm*utf8Title: True
-XTerm*renderFont: True
-XTerm*preeditType: Root
-XTerm*xftAntialias: true
-XTerm*faceName: xft:DejaVu Sans Mono Nerd Font-10
+!XTerm*renderFont: True
+!XTerm*preeditType: Root
+!XTerm*xftAntialias: true
+XTerm*faceName: xft:DejaVu Sans Mono Nerd Font-9
 
 ! Trim trailing spaces
-XTerm*trimSelection: true
+!XTerm*trimSelection: true
 
 ! Fix alt-key inputting
 XTerm*eightBitInput: false
@@ -44,6 +43,7 @@ XTerm*VT100.Translations: #override \
 
 ! Allow selecting email/url by double-click
 XTerm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
+
 
 *.foreground:   #c5c8c6
 *.background:   #1d1f21
@@ -64,7 +64,6 @@ XTerm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35
 *.color13:      #b294bb
 *.color14:      #8abeb7
 *.color15:      #ecebec
-
 
 
 ! URXVT FONT SETTINGS

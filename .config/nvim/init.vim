@@ -1,31 +1,17 @@
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                preamble                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+set t_Co=256
 
 call plug#begin('~/.vim/plugged')
 
 " Status line
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-    let g:airline_theme = "tomorrow"
-    let g:airline#extensions#syntastic#enabled = 1
-    let g:airline#extensions#branch#enabled = 1
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline#extensions#tagbar#enabled = 1
-    let g:airline_skip_empty_sections = 1
-
-    let g:airline_powerline_fonts = 1
-
-    if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
-    endif
-
-    let g:airline_symbols.linenr = '¶'
-    let g:airline_symbols.whitespace = 'Ξ'
-    set fillchars+=stl:\ ,stlnc:\
 
 " Theme
-Plug 'jlangston/tomorrow-night-vim'
+Plug 'romainl/Apprentice', { 'branch': 'fancylines-and-neovim' }
 
 " Git integration
 Plug 'tpope/vim-fugitive'
@@ -33,36 +19,36 @@ Plug 'tpope/vim-fugitive'
 " File Browser
 Plug 'scrooloose/nerdtree'
 
+" Brackets
+Plug 'Raimondi/delimitMate'
+
 " Commenting
 Plug 'scrooloose/nerdcommenter'
+
+"" Doxygen
+Plug 'vim-scripts/DoxygenToolkit.vim'
 
 " Linting and syntax highliting
 Plug 'scrooloose/syntastic'
 Plug 'sheerun/vim-polyglot'
-    let g:syntastic_python_checkers=['python', 'flake8']
+
+" Clang-Format
+Plug 'rhysd/vim-clang-format'
+
+" Ultinsips and YouCompleteMe play nice with this
+Plug 'ervandew/supertab'
 
 " Snippets
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 
-" fuzzy search
+" Auto Completion
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+
+    " fuzzy search
 Plug 'kien/ctrlp.vim'
 
-" Auto Completion
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-"   let g:ycm_seed_identifiers_with_syntax = 1
-
-Plug 'ervandew/supertab'
-    " make YCM compatible with UltiSnips (using supertab)
-    let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-    let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-    let g:SuperTabDefaultCompletionType = '<C-n>'
-
-    " better key bindings for UltiSnipsExpandTrigger
-    let g:UltiSnipsExpandTrigger = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger = "<tab>"
-    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-" use patched unicode symbols from nerd fonts, needs to load last!
+"use patched unicode symbols from nerd fonts, needs to load last!
 Plug 'ryanoasis/vim-devicons'
 
 " Initialize plugin system
@@ -72,63 +58,107 @@ call plug#end()
 let g:python3_host_prog='/usr/bin/python3'
 let g:python_host_prog='/usr/bin/python2'
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" File and Buffer Settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible                " Use all new vim functionalities
+set hidden                      " Do not close the buffers, hide them
+set history=1000                " Remember more commands and search history
+set undolevels=1000             " Remember more levels of undo
+set noerrorbells                " No buzz on error
+set novisualbell                " No 'visual buzz' on error
+set autoread                    " Reload the file if changed from the outside
+set switchbuf=useopen           " if opening a file from :ls, :buffers, :files, etc. jump to open version
+                                " of the file, if one exists
+set confirm                     " dialog foor unsaved changes
+set splitright                  " got to right pane by default (Needed for quickmenu)
 
-"*****************************************************************************
-"" Basic Setup
-"*****************************************************************************"
-"" Encoding
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
-set bomb
-set binary
+" Terminal/GUI setup
+set encoding=utf-8                " Fix encoding shit...
+set mouse=a                       " Use mouse when using vim (tip: maj during
+                                  " selection to use ctrl-maj-c to copy
+                                  " text)
+" smooth redraw
+set lazyredraw
 
-" LEADER
-let mapleader = "\<SPACE>"
-let g:mapleader = "\<SPACE>"
+" Show keys in status
+set showcmd
 
 "" Copy/Paste/Cut
 if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
 endif
 
-"" Fix backspace indent
-set backspace=indent,eol,start
-
-"" Tabs. May be overriten by autocmd rules
-set tabstop=4
+" Indentation
+"""""""""""""""""""""""""""""""""""""""
+" Global configuration
+set expandtab                     " Transform kitten killer tabs to spaces
+set tabstop=4                     " Number of visual spaces per tab
+set shiftwidth=4                  " Number of spaces to use for autoindent
+set backspace=indent,eol,start    " Allow backspacing over everything in
+                                  " insert mode
 set softtabstop=0
-set shiftwidth=4
-set expandtab
 
-"" Enable hidden buffers
-set hidden
+set autoindent                    " Always set autoindent on
+set copyindent                    " Copy the previous indentation on autoindent
+set shiftround                    " Use n shiftwidth when indenting with <>
+set smarttab                      " Use smart removal when using tabs
+autocmd FileType c,cpp  set smartindent " For c file, automatically inserts
+                                        " one extra level of indentation in some cases
+set nojoinspaces                  " When joining lines that end with '.', '?' or '!', ' '
+                                  " only insert one space, not two
 
-"" History
-set history=5000
+" Trailing / tabs
+set list
+set listchars=tab:▸\ ,extends:❰,nbsp:⇏,trail:?
 
-"" Searching
-set hlsearch
-set incsearch
+" Display and search configuration
+"""""""""""""""""""""""""""""""""""""""
+set shortmess=a                 " Deal with messages
+set nowrap                        " No new line when the line is too long
+set showmatch                     " Show matching parenthesis
+set ignorecase                    " Basically, ignore case when searching...
+set smartcase                     " ...but be smart on the case when searching
+set hlsearch                      " Highlight search matches as you type
+set incsearch                     " Show search matches as you type
+set ruler                         " Display the current cursor position
 set ignorecase
 set smartcase
 
-"" Directories for swp files
-set nobackup
-set noswapfile
+" Readability
+"""""""""""""""""""""""""""""""""""""""
+syntax on
+set number                        " Always show line number
+set cursorline                    " Change the current line background
+set scrolloff=8                   " Keep 8 line above and under the current one
 
-set fileformats=unix,dos,mac
+" Cursor
+"""""""""""""""""""""""""""""""""""""""
+" Show cursorline only for active window
+augroup cline
+    au!
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
+augroup END
+
+" http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
-syntax on
-set ruler
-set number
+colorscheme apprentice
+set background=dark
 
-set mousemodel=popup
-
-colorscheme Tomorrow-Night
+if !&scrolloff
+  set scrolloff=1
+endif
+if !&sidescrolloff
+  set sidescrolloff=5
+endif
+set display+=lastline
 
 "*****************************************************************************
 "" Abbreviations
@@ -145,8 +175,133 @@ cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
+"*****************************************************************************
+"" Mappings
+"*****************************************************************************
+" our <leader> will be the space key
+let mapleader=" "
+
+" our <localleader> will be the '-' key
+let maplocalleader="-"
+
+"" Split
+noremap <Leader>h :<C-u>split<CR>
+noremap <Leader>v :<C-u>vsplit<CR>
+
+"" Switching windows
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
+
+"" Fast save file
+nmap <leader>w :w!<cr>
+nmap <leader>q :q<cr>
+
+"" Close buffer
+noremap <leader>c :bd<CR>
+
+" move among buffers with double leader
+map <leader><leader> :bnext<CR>
+
+"" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+"" RELOAD VIMRC
+noremap <leader>s :e! $MYVIMRC<CR>
+noremap <silent> <leader>S :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+
+" Keep search matches in the middle of the window.
+" zz centers the screen on the cursor, zv unfolds any fold if the cursor
+" suddenly appears inside a fold.
+nnoremap * *zzzv
+nnoremap # #zzzv
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Also center the screen when jumping through the changelist
+nnoremap g; g;zz
+nnoremap g, g,zz
+
+" This makes j and k work on "screen lines" instead of on "file lines"; now, when
+" we have a long line that wraps to multiple screen lines, j and k behave as we
+" expect them to.
+nnoremap j gj
+nnoremap k gk
+
+" Switch to the directory of the open buffer
+noremap <leader>cd :cd %:p:h<cr>
+
+" Toggle and untoggle spell checking
+noremap <leader>ss :setlocal spell! spelllang=en_us<cr>
+
+" spelling shortcuts using <leader>
+" ]s next misspelled word
+" [s previous misspelled word
+" zg add to dict
+" z= get suggestions
+noremap <leader>sn ]s
+noremap <leader>sp [s
+noremap <leader>sa zg
+
+" Using '<' and '>' in visual mode to shift code by a tab-width left/right by
+" default exits visual mode. With this mapping we remain in visual mode after
+" such an operation.
+vnoremap < <gv
+vnoremap > >gvnoremap <leader>su z=
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                 ctrlp                                   "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30'
+
+" Faster indexing of files; requires having ag (AKA the_silver_searcher)
+" installed.
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --ignore "**/*.pyc"
+      \ --ignore BoostParts
+      \ -g ""'
+
+
+" syntastic
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_error_symbol='✖'
+let g:syntastic_warning_symbol='➤'
+let g:syntastic_style_error_symbol = '✖'
+let g:syntastic_style_warning_symbol = '➤'
+let g:syntastic_auto_loc_list=1
+let g:syntastic_aggregate_errors = 1
+
+
+"" Clang Format
+nnoremap <leader>ff :ClangFormat<CR>
+
+
+let g:airline_theme = "apprentice"
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
+let g:airline_powerline_fonts = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.whitespace = 'Ξ'
+set fillchars+=stl:\ ,stlnc:\
+
 "" NERDTree configuration
 let g:NERDTreeChDirMode=2
+let g:NERDTreeShowHidden=1
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
@@ -158,80 +313,21 @@ nnoremap <leader>nf :NERDTreeFind<CR>
 noremap <leader>nn :NERDTreeToggle<CR>
 
 
-"*****************************************************************************
-"" Mappings
-"*****************************************************************************
+let g:ycm_seed_identifiers_with_syntax = 1
+" make YCM compatible with UltiSnips (using supertab)
+ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
-"" Split
-noremap <Leader>h :<C-u>split<CR>
-noremap <Leader>v :<C-u>vsplit<CR>
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
-"" Git
-noremap <Leader>ga :Gwrite<CR>
-noremap <Leader>gc :Gcommit<CR>
-noremap <Leader>gsh :Gpush<CR>
-noremap <Leader>gll :Gpull<CR>
-noremap <Leader>gs :Gstatus<CR>
-noremap <Leader>gb :Gblame<CR>
-noremap <Leader>gd :Gvdiff<CR>
-noremap <Leader>gr :Gremove<CR>
+let g:syntastic_python_checkers=['python', 'flake8']
+let g:syntastic_cpp_checkers = ['clang_tidy']
 
-" session management
-"nnoremap <leader>so :OpenSession<Space>
-"nnoremap <leader>ss :SaveSession<Space>
-"nnoremap <leader>sd :DeleteSession<CR>
-"nnoremap <leader>sc :CloseSession<CR>
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
 
-"" Tabs
-"nnoremap <Tab> gt
-"nnoremap <S-Tab> gT
-"nnoremap <silent> <S-t> :tabnew<CR>
-
-"" Set working directory
-nnoremap <leader>. :lcd %:p:h<CR>
-
-" snippets
-"let g:UltiSnipsExpandTrigger="<tab>"
-"let g:UltiSnipsJumpForwardTrigger="<tab>"
-"let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-"let g:UltiSnipsEditSplit="vertical"
-
-" syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=1
-let g:syntastic_aggregate_errors = 1
-
-"" Close buffer
-noremap <leader>c :bd<CR>
-
-"" Switching windows
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-noremap <C-h> <C-w>h
-
-"" Vmap for maintain Visual Mode after shifting > and <
-vmap < <gv
-vmap > >gv
-
-"" Move visual block
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
-"" Open current line on GitHub
-nnoremap <Leader>o :.Gbrowse<CR>
-
-"autocmd BufWritePre * :%s/\s\+$//e " Remove whitespaces on save
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" RELOAD VIMRC
-map <leader>s :source $MYVIMRC<CR>
-
-"" Fast save file
-nmap <leader>w :w!<cr>
