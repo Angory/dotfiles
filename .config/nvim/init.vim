@@ -34,6 +34,8 @@ Plug 'sheerun/vim-polyglot'
 
 " Clang-Format
 Plug 'rhysd/vim-clang-format'
+Plug 'tell-k/vim-autopep8'
+Plug 'sbdchd/neoformat'
 
 " Ultinsips and YouCompleteMe play nice with this
 Plug 'ervandew/supertab'
@@ -108,10 +110,17 @@ autocmd FileType c,cpp  set smartindent " For c file, automatically inserts
 set nojoinspaces                  " When joining lines that end with '.', '?' or '!', ' '
                                   " only insert one space, not two
 
-" Trailing / tabs
-set list
-set listchars=tab:▸\ ,extends:❰,nbsp:⇏,trail:?
+"highlight OverLength ctermbg=black ctermfg=white guibg=#FFD9D9
+"set colorcolumn=80
 
+" Trailing / tabs
+set showbreak=↪\ 
+set list
+set listchars=tab:→\
+set listchars+=nbsp:␣
+set listchars+=trail:·
+set listchars+=extends:⟩
+set listchars+=precedes:⟨
 " Display and search configuration
 """""""""""""""""""""""""""""""""""""""
 set shortmess=a                 " Deal with messages
@@ -314,6 +323,8 @@ noremap <leader>nn :NERDTreeToggle<CR>
 
 
 let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_python_binary_path = '/usr/bin/python3'
+
 " make YCM compatible with UltiSnips (using supertab)
  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -325,6 +336,8 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 let g:syntastic_python_checkers=['python', 'flake8']
+let g:syntastic_python_pylint_post_args="--max-line-length=120"
+let g:syntastic_python_flake8_post_args="--max-line-length=120"
 let g:syntastic_cpp_checkers = ['clang_tidy']
 
 let g:cpp_class_scope_highlight = 1
