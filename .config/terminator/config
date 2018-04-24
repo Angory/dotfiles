@@ -30,6 +30,7 @@
     foreground_color = "#ffffff"
     icon_bell = False
     palette = "#000000:#f92672:#6cc72c:#fe9720:#5f91ef:#9358fe:#36af90:#8c8c8c:#4c4c4c:#ff80f4:#a7e22e:#ffee99:#5fd9ef:#ae82fe:#66efd5:#c7cece"
+    scrollback_lines = 5000
     scrollbar_position = hidden
     show_titlebar = False
     use_custom_command = True

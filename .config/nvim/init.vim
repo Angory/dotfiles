@@ -1,9 +1,9 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                preamble                                 "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""                                preamble                                 "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
 set t_Co=256
-
+set guicursor=
 call plug#begin('~/.vim/plugged')
 
 " Status line
@@ -25,16 +25,31 @@ Plug 'Raimondi/delimitMate'
 " Commenting
 Plug 'scrooloose/nerdcommenter'
 
-"" Doxygen
-Plug 'vim-scripts/DoxygenToolkit.vim'
+" Doxygen
+"Plug 'vim-scripts/DoxygenToolkit.vim'
 
-" Linting and syntax highliting
-Plug 'scrooloose/syntastic'
+" Syntax highliting
 Plug 'sheerun/vim-polyglot'
 
-" Clang-Format
-Plug 'rhysd/vim-clang-format'
-Plug 'tell-k/vim-autopep8'
+" Linting
+Plug 'neomake/neomake'
+" {{{
+    let g:neomake_open_list = 2
+    " neomake is async => it doesn't block the editor
+    " It's a syntastic alternative. Syntastic was slow for me on python files.
+    " $ sudo pip2/pip3 install flake8 -U
+    " $ sudo pip2/pip3 install vulture -U
+    let g:neomake_python_enabled_makers = ['flake8', 'pep8', 'vulture', "python"]
+    " let g:neomake_python_enabled_makers = ['flake8', 'pep8']
+    " E501 is line length of 80 characters
+    let g:neomake_python_flake8_maker = { 'args': ['--ignore=E115,E266,E501'], }
+    let g:neomake_python_pep8_maker = { 'args': ['--max-line-length=120', '--ignore=E115,E266'], }
+ 
+    " run neomake on the current file on every write:
+    autocmd! BufWritePost * Neomake
+" }}}
+
+" Formatting
 Plug 'sbdchd/neoformat'
 
 " Ultinsips and YouCompleteMe play nice with this
@@ -47,7 +62,10 @@ Plug 'honza/vim-snippets'
 " Auto Completion
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 
-    " fuzzy search
+" latex
+Plug 'lervag/vimtex'
+
+" fuzzy search
 Plug 'kien/ctrlp.vim'
 
 "use patched unicode symbols from nerd fonts, needs to load last!
@@ -71,15 +89,15 @@ set noerrorbells                " No buzz on error
 set novisualbell                " No 'visual buzz' on error
 set autoread                    " Reload the file if changed from the outside
 set switchbuf=useopen           " if opening a file from :ls, :buffers, :files, etc. jump to open version
-                                " of the file, if one exists
+                               "" of the file, if one exists
 set confirm                     " dialog foor unsaved changes
 set splitright                  " got to right pane by default (Needed for quickmenu)
 
 " Terminal/GUI setup
 set encoding=utf-8                " Fix encoding shit...
 set mouse=a                       " Use mouse when using vim (tip: maj during
-                                  " selection to use ctrl-maj-c to copy
-                                  " text)
+                                  "" selection to use ctrl-maj-c to copy
+                                  "" text)
 " smooth redraw
 set lazyredraw
 
@@ -98,7 +116,7 @@ set expandtab                     " Transform kitten killer tabs to spaces
 set tabstop=4                     " Number of visual spaces per tab
 set shiftwidth=4                  " Number of spaces to use for autoindent
 set backspace=indent,eol,start    " Allow backspacing over everything in
-                                  " insert mode
+                                  "" insert mode
 set softtabstop=0
 
 set autoindent                    " Always set autoindent on
@@ -106,12 +124,11 @@ set copyindent                    " Copy the previous indentation on autoindent
 set shiftround                    " Use n shiftwidth when indenting with <>
 set smarttab                      " Use smart removal when using tabs
 autocmd FileType c,cpp  set smartindent " For c file, automatically inserts
-                                        " one extra level of indentation in some cases
+                                        "" one extra level of indentation in some cases
 set nojoinspaces                  " When joining lines that end with '.', '?' or '!', ' '
-                                  " only insert one space, not two
+                                  "" only insert one space, not two
 
-"highlight OverLength ctermbg=black ctermfg=white guibg=#FFD9D9
-"set colorcolumn=80
+highlight OverLength ctermbg=black ctermfg=white guibg=#FFD9D9
 
 " Trailing / tabs
 set showbreak=↪\ 
@@ -145,9 +162,9 @@ set scrolloff=8                   " Keep 8 line above and under the current one
 """""""""""""""""""""""""""""""""""""""
 " Show cursorline only for active window
 augroup cline
-    au!
-    au WinLeave,InsertEnter * set nocursorline
-    au WinEnter,InsertLeave * set cursorline
+   "au!
+   "au WinLeave,InsertEnter * set nocursorline
+   "au WinEnter,InsertLeave * set cursorline
 augroup END
 
 " http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
@@ -169,7 +186,7 @@ if !&sidescrolloff
 endif
 set display+=lastline
 
-"*****************************************************************************
+""*****************************************************************************
 "" Abbreviations
 "*****************************************************************************
 "" no one is really happy until you have this shortcuts
@@ -181,7 +198,7 @@ cnoreabbrev Wa wa
 cnoreabbrev wQ wq
 cnoreabbrev WQ wq
 cnoreabbrev W w
-cnoreabbrev Q q
+noreabbrev Q q
 cnoreabbrev Qall qall
 
 "*****************************************************************************
@@ -218,8 +235,8 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
 "" RELOAD VIMRC
-noremap <leader>s :e! $MYVIMRC<CR>
-noremap <silent> <leader>S :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+noremap <leader>erc ie! $MYVIMRC<CR>
+noremap <silent> <leader>src :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " Keep search matches in the middle of the window.
 " zz centers the screen on the cursor, zv unfolds any fold if the cursor
@@ -269,31 +286,18 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30'
 " Faster indexing of files; requires having ag (AKA the_silver_searcher)
 " installed.
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
-      \ --ignore .git
-      \ --ignore .svn
-      \ --ignore .hg
-      \ --ignore .DS_Store
-      \ --ignore "**/*.pyc"
-      \ --ignore BoostParts
-      \ -g ""'
+     \ --ignore .git
+     \ --ignore .svn
+     \ --ignore .hg
+     \ --ignore .DS_Store
+     \ --ignore "**/*.pyc"
+     \ --ignore BoostParts
+     \ -g ""'
 
 
-" syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_error_symbol='✖'
-let g:syntastic_warning_symbol='➤'
-let g:syntastic_style_error_symbol = '✖'
-let g:syntastic_style_warning_symbol = '➤'
-let g:syntastic_auto_loc_list=1
-let g:syntastic_aggregate_errors = 1
-
-
-"" Clang Format
-nnoremap <leader>ff :ClangFormat<CR>
-
-
+"" Vim Airline
 let g:airline_theme = "apprentice"
-let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#neomake#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
@@ -301,7 +305,7 @@ let g:airline_skip_empty_sections = 1
 let g:airline_powerline_fonts = 1
 
 if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+   let g:airline_symbols = {}
 endif
 
 let g:airline_symbols.linenr = '¶'
@@ -321,12 +325,12 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <leader>nf :NERDTreeFind<CR>
 noremap <leader>nn :NERDTreeToggle<CR>
 
-
+" YouCompleteMe
 let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_python_binary_path = '/usr/bin/python3'
+let g:ycm_python_binary_path = 'python'
 
 " make YCM compatible with UltiSnips (using supertab)
- let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
@@ -335,10 +339,6 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
-let g:syntastic_python_checkers=['python', 'flake8']
-let g:syntastic_python_pylint_post_args="--max-line-length=120"
-let g:syntastic_python_flake8_post_args="--max-line-length=120"
-let g:syntastic_cpp_checkers = ['clang_tidy']
 
 let g:cpp_class_scope_highlight = 1
 let g:cpp_member_variable_highlight = 1
