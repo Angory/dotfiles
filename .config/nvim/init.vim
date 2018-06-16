@@ -31,6 +31,9 @@ Plug 'scrooloose/nerdcommenter'
 " Syntax highliting
 Plug 'sheerun/vim-polyglot'
 
+" SpellChecking
+Plug 'rhysd/vim-grammarous'
+
 " Linting
 Plug 'neomake/neomake'
 " {{{
@@ -116,7 +119,8 @@ set expandtab                     " Transform kitten killer tabs to spaces
 set tabstop=4                     " Number of visual spaces per tab
 set shiftwidth=4                  " Number of spaces to use for autoindent
 set backspace=indent,eol,start    " Allow backspacing over everything in
-                                  "" insert mode
+set textwidth=120
+"" insert mode
 set softtabstop=0
 
 set autoindent                    " Always set autoindent on
@@ -186,6 +190,9 @@ if !&sidescrolloff
 endif
 set display+=lastline
 
+set tw=120
+set fo+=t
+
 ""*****************************************************************************
 "" Abbreviations
 "*****************************************************************************
@@ -223,7 +230,7 @@ noremap <C-h> <C-w>h
 "" Fast save file
 nmap <leader>w :w!<cr>
 nmap <leader>q :q<cr>
-
+nmap <leader>wq :wq<cr>
 "" Close buffer
 noremap <leader>c :bd<CR>
 
@@ -234,8 +241,11 @@ map <leader><leader> :bnext<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+"" Escape
+inoremap jj <Esc>
+
 "" RELOAD VIMRC
-noremap <leader>erc ie! $MYVIMRC<CR>
+noremap <leader>erc :e! $MYVIMRC<CR>
 noremap <silent> <leader>src :source $MYVIMRC<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " Keep search matches in the middle of the window.
